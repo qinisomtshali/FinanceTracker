@@ -1,0 +1,38 @@
+﻿services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: financetracker-db
+    environment:
+      SA_PASSWORD: "YourStrong@Password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "YourStrong@Password123" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: financetracker-api
+    ports:
+      - "5000:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=FinanceTrackerDb;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=true
+      - Jwt__Key=YourSuperSecretKeyThatIsAtLeast32CharactersLong2026!!
+      - Jwt__Issuer=FinanceTracker.API
+      - Jwt__Audience=FinanceTracker.Client
+      - Jwt__ExpirationInMinutes=60
+      - Jwt__RefreshTokenExpirationInDays=7
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+volumes:
+  sqldata:

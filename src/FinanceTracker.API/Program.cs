@@ -2,6 +2,7 @@ using FinanceTracker.API.Middleware;
 using FinanceTracker.API.Extensions;
 using FinanceTracker.Application;
 using FinanceTracker.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 // ============================================================
@@ -64,5 +65,12 @@ app.MapControllers();
 
 // Log startup
 Log.Information("FinanceTracker API starting on {Environment}", app.Environment.EnvironmentName);
+
+// Auto-migrate database on startup (for Docker/deployment)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<FinanceTracker.Infrastructure.Data.ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 app.Run();

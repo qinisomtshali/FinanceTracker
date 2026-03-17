@@ -1,0 +1,35 @@
+## .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.cache
+.vs/
+*.DotSettings.user
+
+## Rider
+.idea/
+
+## VS Code
+.vscode/
+
+## Environment files
+appsettings.*.local.json
+*.env
+
+## Build
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+## NuGet
+*.nupkg
+**/[Pp]ackages/*
+
+## Logs
+logs/
+*.log
+
+## Docker
+.docker/

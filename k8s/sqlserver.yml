@@ -1,0 +1,66 @@
+# ============================================================
+# SQL SERVER DEPLOYMENT
+#
+# In K8s, a Deployment manages your container replicas.
+# It ensures the desired number of pods are always running.
+# If a pod crashes, K8s automatically restarts it.
+# ============================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver-pvc
+  namespace: financetracker
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver
+  namespace: financetracker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+        - name: sqlserver
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              value: "YourStrong@Password123"
+          volumeMounts:
+            - name: sqldata
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: sqldata
+          persistentVolumeClaim:
+            claimName: sqlserver-pvc
+---
+# A Service gives your pod a stable network address.
+# Other pods connect to "sqlserver" by name, not IP.
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver
+  namespace: financetracker
+spec:
+  selector:
+    app: sqlserver
+  ports:
+    - port: 1433
+      targetPort: 1433
+  type: ClusterIP

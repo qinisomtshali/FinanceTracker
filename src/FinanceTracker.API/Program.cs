@@ -66,11 +66,11 @@ app.MapControllers();
 // Log startup
 Log.Information("FinanceTracker API starting on {Environment}", app.Environment.EnvironmentName);
 
-// Auto-migrate database on startup (for Docker/deployment)
+// Auto-create/migrate database on startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<FinanceTracker.Infrastructure.Data.ApplicationDbContext>();
-    db.Database.Migrate();
+    db.Database.EnsureCreated();
 }
 
 app.Run();

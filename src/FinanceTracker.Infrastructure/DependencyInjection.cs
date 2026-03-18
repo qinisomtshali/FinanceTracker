@@ -22,7 +22,7 @@ public static class DependencyInjection
     {
         // Register EF Core with SQL Server
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
+           options.UseNpgsql(
                 configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 

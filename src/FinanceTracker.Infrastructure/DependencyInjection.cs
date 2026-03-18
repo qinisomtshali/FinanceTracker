@@ -21,20 +21,25 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // Register EF Core — pick provider based on config
-        var dbProvider = configuration.GetValue<string>("DatabaseProvider") ?? "Npgsql";
+        var connectionString = configuration.GetConnectionString("FinanceTrackerDb")
+     ?? configuration.GetConnectionString("DefaultConnection");
+        var dbProvider = configuration.GetValue<string>("DatabaseProvider")
+            ?? (connectionString?.Contains("Host=") == true ? "Npgsql" : "SqlServer");
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             if (dbProvider == "SqlServer")
             {
                 options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("FinanceTrackerDb")
+                    ?? configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
             }
             else
             {
                 options.UseNpgsql(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("FinanceTrackerDb") 
+                    ?? configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
             }
         });

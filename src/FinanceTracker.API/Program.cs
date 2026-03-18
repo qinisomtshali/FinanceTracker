@@ -27,6 +27,9 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+
+builder.AddServiceDefaults();
+
 // ---- Register services from each layer ----
 // Each layer registers its own services — the API layer just calls them.
 builder.Services.AddApplication();                                    // MediatR, FluentValidation
@@ -68,6 +71,7 @@ var app = builder.Build();
 // Global exception handling — catches unhandled exceptions and returns clean JSON
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<SecurityHeadersMiddleware>();
+app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())
 {

@@ -9,6 +9,8 @@ COPY src/FinanceTracker.Infrastructure/FinanceTracker.Infrastructure.csproj src/
 COPY src/FinanceTracker.API/FinanceTracker.API.csproj src/FinanceTracker.API/
 COPY tests/FinanceTracker.UnitTests/FinanceTracker.UnitTests.csproj tests/FinanceTracker.UnitTests/
 COPY tests/FinanceTracker.IntegrationTests/FinanceTracker.IntegrationTests.csproj tests/FinanceTracker.IntegrationTests/
+COPY src/FinanceTracker.AppHost/FinanceTracker.AppHost.csproj src/FinanceTracker.AppHost/
+COPY src/FinanceTracker.ServiceDefaults/FinanceTracker.ServiceDefaults.csproj src/FinanceTracker.ServiceDefaults/
 
 RUN dotnet restore
 

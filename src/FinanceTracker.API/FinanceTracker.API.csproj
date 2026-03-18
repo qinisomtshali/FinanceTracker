@@ -15,7 +15,7 @@
   <ItemGroup>
     <!-- Swagger/OpenAPI for API documentation -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-    
+
     <!-- Serilog integration -->
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
   </ItemGroup>

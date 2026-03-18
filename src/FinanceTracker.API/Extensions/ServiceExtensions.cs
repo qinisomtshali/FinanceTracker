@@ -43,15 +43,30 @@ public static class ServiceExtensions
         });
 
         // ---- CORS ----
+        // In production, NEVER use AllowAnyOrigin.
+        // Only allow your specific frontend domains.
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowFrontend", builder =>
+            options.AddPolicy("AllowFrontend", policy =>
             {
-                builder
-                    .WithOrigins(configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>())
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
+                if (allowedOrigins != null && allowedOrigins.Length > 0)
+                {
+                    policy
+                        .WithOrigins(allowedOrigins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                }
+                else
+                {
+                    // Fallback for development
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                }
             });
         });
 

@@ -2,6 +2,7 @@ using FinanceTracker.Application.Common.Interfaces;
 using FinanceTracker.Application.DTOs.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace FinanceTracker.API.Controllers;
 
@@ -14,6 +15,10 @@ namespace FinanceTracker.API.Controllers;
 /// 
 /// This is still a thin controller — it delegates everything to IAuthService.
 /// </summary>
+/// 
+
+[EnableRateLimiting("auth")]
+
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase

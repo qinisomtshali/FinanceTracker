@@ -4,6 +4,8 @@ using FinanceTracker.Application;
 using FinanceTracker.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 // ============================================================
 // PROGRAM.CS — The entry point of the entire application.
@@ -31,6 +33,30 @@ builder.Services.AddApplication();                                    // MediatR
 builder.Services.AddInfrastructure(builder.Configuration);            // EF Core, Identity, Repos
 builder.Services.AddApiServices(builder.Configuration);               // JWT, Swagger, CORS, CurrentUser
 
+// ---- Rate Limiting ----
+// Prevents brute force attacks and API abuse.
+// Fixed window: max 100 requests per 1-minute window per user.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // General rate limit for all endpoints
+    options.AddFixedWindowLimiter("fixed", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+
+    // Strict rate limit for auth endpoints (prevents brute force)
+    options.AddFixedWindowLimiter("auth", opt =>
+    {
+        opt.PermitLimit = 10;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -41,6 +67,7 @@ var app = builder.Build();
 
 // Global exception handling — catches unhandled exceptions and returns clean JSON
 app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -52,10 +79,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 // CORS must come before auth
 app.UseCors("AllowFrontend");
+
+app.UseRateLimiter();
 
 // Authentication then Authorization — order is critical
 app.UseAuthentication();

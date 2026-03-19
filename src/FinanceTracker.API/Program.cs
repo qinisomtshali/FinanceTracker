@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.RateLimiting;
 // dependencies via constructor injection automatically.
 // ============================================================
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ---- Serilog: Structured logging ----

@@ -53,7 +53,7 @@ public class GetBudgetsHandler
                 endDate: endDate,
                 categoryId: budget.CategoryId,
                 page: 1,
-                pageSize: int.MaxValue, // Get all for this month/category
+                pageSize: 10000, // Get all for this month/category
                 cancellationToken: cancellationToken);
 
             var spentAmount = transactions

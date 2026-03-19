@@ -43,7 +43,7 @@ public class GetCategoryBreakdownHandler
             startDate: startDate,
             endDate: endDate,
             page: 1,
-            pageSize: int.MaxValue,
+            pageSize: 10000,
             cancellationToken: cancellationToken);
 
         // Only look at expenses for the breakdown

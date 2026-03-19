@@ -51,7 +51,7 @@ public class GetBudgetVsActualHandler
                 endDate: endDate,
                 categoryId: budget.CategoryId,
                 page: 1,
-                pageSize: int.MaxValue,
+                pageSize: 10000,
                 cancellationToken: cancellationToken);
 
             var actualAmount = transactions

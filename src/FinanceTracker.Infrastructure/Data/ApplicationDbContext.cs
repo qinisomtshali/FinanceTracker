@@ -42,6 +42,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         // Relationships use UserId (Guid) as a simple FK without navigating to User.
         builder.Ignore<Domain.Entities.User>();
 
+
+        // Tell Npgsql to handle DateTime as UTC for PostgreSQL compatibility
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         // Apply all entity configurations from this assembly
         // (any class implementing IEntityTypeConfiguration<T>)
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

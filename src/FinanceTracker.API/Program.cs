@@ -38,6 +38,12 @@ builder.Services.AddApplication();                                    // MediatR
 builder.Services.AddInfrastructure(builder.Configuration);            // EF Core, Identity, Repos
 builder.Services.AddApiServices(builder.Configuration);               // JWT, Swagger, CORS, CurrentUser
 
+// Register external API services (stock, crypto, currency)
+builder.Services.AddExternalServices(builder.Configuration);
+
+// Load the external APIs config
+builder.Configuration.AddJsonFile("appsettings.ExternalApis.json", optional: true);
+
 // ---- Rate Limiting ----
 // Prevents brute force attacks and API abuse.
 // Fixed window: max 100 requests per 1-minute window per user.

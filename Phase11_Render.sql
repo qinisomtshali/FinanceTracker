@@ -1,0 +1,2 @@
+﻿-- Phase 11: PostgreSQL Migration for Render
+CREATE TABLE IF NOT EXISTS "StockWatchlistItems" ("Id" uuid NOT NULL DEFAULT gen_random_uuid(),"UserId" varchar(256) NOT NULL,"Symbol" varchar(20) NOT NULL,"Exchange" varchar(20) NOT NULL DEFAULT '','Name' varchar(200) NOT NULL,"AlertPriceAbove" decimal(18,4) NULL,"AlertPriceBelow" decimal(18,4) NULL,"Notes" varchar(500) NULL,"CreatedAt" timestamptz NOT NULL DEFAULT NOW(),"UpdatedAt" timestamptz NOT NULL DEFAULT NOW(),CONSTRAINT "PK_StockWatchlistItems" PRIMARY KEY ("Id"));

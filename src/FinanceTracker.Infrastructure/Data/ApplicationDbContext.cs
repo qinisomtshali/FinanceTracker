@@ -25,6 +25,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Budget> Budgets => Set<Budget>();
 
+    public DbSet<StockWatchlistItem> StockWatchlistItems => Set<StockWatchlistItem>();
+    public DbSet<CryptoWatchlistItem> CryptoWatchlistItems => Set<CryptoWatchlistItem>();
+    public DbSet<CurrencyConversion> CurrencyConversions => Set<CurrencyConversion>();
+    public DbSet<TaxCalculation> TaxCalculations => Set<TaxCalculation>();
+    public DbSet<Invoice> Invoices => Set<Invoice>();
+    public DbSet<InvoiceLineItem> InvoiceLineItems => Set<InvoiceLineItem>();
+
     /// <summary>
     /// Configure entity relationships, constraints, and indexes.
     /// This is called once when EF Core builds its internal model.
@@ -42,13 +49,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         // Relationships use UserId (Guid) as a simple FK without navigating to User.
         builder.Ignore<Domain.Entities.User>();
 
-
-        // Tell Npgsql to handle DateTime as UTC for PostgreSQL compatibility
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
         // Apply all entity configurations from this assembly
         // (any class implementing IEntityTypeConfiguration<T>)
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
     }
 
     /// <summary>

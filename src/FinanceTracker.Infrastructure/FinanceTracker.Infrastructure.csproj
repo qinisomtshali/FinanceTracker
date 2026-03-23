@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <!-- Entity Framework Core 10 with SQL Server provider -->
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.4.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
 <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0" />

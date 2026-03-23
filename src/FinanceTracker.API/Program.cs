@@ -41,6 +41,9 @@ builder.Services.AddApiServices(builder.Configuration);               // JWT, Sw
 // Register external API services (stock, crypto, currency)
 builder.Services.AddExternalServices(builder.Configuration);
 
+// Register MediatR handlers from Infrastructure (Invoice handlers, etc.)
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(FinanceTracker.Infrastructure.Data.ApplicationDbContext).Assembly));
+
 // Load the external APIs config
 builder.Configuration.AddJsonFile("appsettings.ExternalApis.json", optional: true);
 

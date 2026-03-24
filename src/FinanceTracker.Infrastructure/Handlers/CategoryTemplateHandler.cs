@@ -1,9 +1,10 @@
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using FinanceTracker.Application.Features.Categories;
 using FinanceTracker.Domain.Entities;
 using FinanceTracker.Domain.Enums;
 using FinanceTracker.Infrastructure.Data;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace FinanceTracker.Infrastructure.Handlers;
 
@@ -49,6 +50,7 @@ public class ApplyCategoryTemplatesHandler : IRequestHandler<ApplyCategoryTempla
             {
                 Name = template.Name,
                 Type = Enum.Parse<TransactionType>(template.Type),
+                Icon = template.Icon,
                 UserId = userId
             };
 

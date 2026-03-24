@@ -25,12 +25,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Budget> Budgets => Set<Budget>();
 
+    //phase 11
     public DbSet<StockWatchlistItem> StockWatchlistItems => Set<StockWatchlistItem>();
     public DbSet<CryptoWatchlistItem> CryptoWatchlistItems => Set<CryptoWatchlistItem>();
     public DbSet<CurrencyConversion> CurrencyConversions => Set<CurrencyConversion>();
     public DbSet<TaxCalculation> TaxCalculations => Set<TaxCalculation>();
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<InvoiceLineItem> InvoiceLineItems => Set<InvoiceLineItem>();
+
+    // Phase 12: Gamification & Savings
+    public DbSet<UserFinancialProfile> UserFinancialProfiles => Set<UserFinancialProfile>();
+    public DbSet<Achievement> Achievements => Set<Achievement>();
+    public DbSet<UserAchievement> UserAchievements => Set<UserAchievement>();
+    public DbSet<PointTransaction> PointTransactions => Set<PointTransaction>();
+    public DbSet<SavingsGoal> SavingsGoals => Set<SavingsGoal>();
+    public DbSet<SavingsDeposit> SavingsDeposits => Set<SavingsDeposit>();
+    public DbSet<SavingsChallenge> SavingsChallenges => Set<SavingsChallenge>();
+    public DbSet<FinancialTip> FinancialTips => Set<FinancialTip>();
 
     /// <summary>
     /// Configure entity relationships, constraints, and indexes.

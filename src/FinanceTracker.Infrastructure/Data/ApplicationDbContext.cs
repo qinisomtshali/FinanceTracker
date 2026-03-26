@@ -43,6 +43,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<SavingsChallenge> SavingsChallenges => Set<SavingsChallenge>();
     public DbSet<FinancialTip> FinancialTips => Set<FinancialTip>();
 
+    // Phase 14: Debt Payoff Planner
+    public DbSet<Debt> Debts => Set<Debt>();
+    public DbSet<DebtPayment> DebtPayments => Set<DebtPayment>();
+
     /// <summary>
     /// Configure entity relationships, constraints, and indexes.
     /// This is called once when EF Core builds its internal model.

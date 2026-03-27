@@ -47,6 +47,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<Debt> Debts => Set<Debt>();
     public DbSet<DebtPayment> DebtPayments => Set<DebtPayment>();
 
+    //phase 15: calnder and recurring transactions
+    public DbSet<RecurringTransaction> RecurringTransactions => Set<RecurringTransaction>();
+
     /// <summary>
     /// Configure entity relationships, constraints, and indexes.
     /// This is called once when EF Core builds its internal model.
